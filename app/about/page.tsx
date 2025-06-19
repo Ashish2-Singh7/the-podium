@@ -62,7 +62,7 @@ export default function About() {
                 </div>
 
                 {/* Story Section */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8 md:p-12 mb-16">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8 md:p-12 mb-16 text-center sm:text-left">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 font-playfair">Our Story</h2>
@@ -130,7 +130,7 @@ export default function About() {
                 </div>
 
                 {/* Stats Section */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-2xl shadow-lg p-8 md:p-12 text-white mb-16">
+                <div className="bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12 text-white mb-16">
                     <h2 className="text-3xl font-bold text-center mb-12 font-playfair">Our Impact</h2>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
                         <div>
