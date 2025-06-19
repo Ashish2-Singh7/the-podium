@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, Calendar, User, ArrowRight, Filter, TrendingUp, Clock } from 'lucide-react';
+import { Search, User, TrendingUp, Clock } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Articles() {
@@ -116,7 +116,6 @@ export default function Articles() {
                 <div className="mb-12">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair">Browse by Category</h2>
-                        <Filter className="w-5 h-5 text-gray-400" />
                     </div>
                     <div className="flex flex-wrap gap-3">
                         {categories.map((category) => (
@@ -137,8 +136,8 @@ export default function Articles() {
                 {/* Editor's Picks */}
                 <div className="mb-12">
                     <div className="flex items-center space-x-2 mb-8">
-                        <TrendingUp className="w-6 h-6 text-orange-500" />
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair">Editor's Picks</h2>
+                        <TrendingUp className="w-6 h-6 text-green-500" />
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair">{`Editor's`} Picks</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {featuredArticles.slice(0, 3).map((article) => (
@@ -154,7 +153,7 @@ export default function Articles() {
                                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                        <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                                             {article.category}
                                         </span>
                                     </div>
@@ -163,7 +162,7 @@ export default function Articles() {
                                         <span>{article.views}</span>
                                     </div>
                                 </div>
-                                <div className="p-6">
+                                <div className="p-6 flex flex-col justify-between sm:h-48">
                                     <h3 className="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
                                         {article.title}
                                     </h3>
@@ -202,7 +201,7 @@ export default function Articles() {
                                 <img
                                     src={article.image}
                                     alt={article.title}
-                                    className="w-32 h-32 object-cover flex-shrink-0 group-hover:scale-105 transition-transform duration-500"
+                                    className="w-32 h-full object-cover flex-shrink-0 group-hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="p-6 flex-1">
                                     <div className="flex items-center space-x-2 mb-2">
