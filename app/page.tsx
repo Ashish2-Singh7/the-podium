@@ -11,12 +11,12 @@ export default function Home() {
           <div className="lg:col-span-2">
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white font-serif">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white font-playfair">
                   Best of the week
                 </h1>
                 <Link
                   href="/articles"
-                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium flex items-center space-x-1 transition-colors duration-200"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center sm:space-x-1 transition-colors duration-200 w-40 justify-end"
                 >
                   <span>See all posts</span>
                   <ArrowRight className="w-4 h-4" />
@@ -33,7 +33,7 @@ export default function Home() {
                   className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                     Travel
                   </span>
                 </div>
@@ -43,7 +43,7 @@ export default function Home() {
               </div>
 
               <div className="p-6 md:p-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200 font-serif">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 font-playfair">
                   Get to your dream destinations with TravelPro
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
@@ -62,7 +62,7 @@ export default function Home() {
                   </div>
                   <Link
                     href="/articles/travel-pro"
-                    className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium flex items-center space-x-1"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center space-x-1 w-40 justify-end"
                   >
                     <span>Read more</span>
                     <ArrowRight className="w-4 h-4" />
@@ -75,27 +75,27 @@ export default function Home() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Trending Categories */}
-            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-6 border border-purple-100 dark:border-purple-800">
+            <div className="bg-green-50 dark:bg-green-900/20 rounded-2xl p-6 border border-green-100 dark:border-green-800">
               <div className="flex items-center space-x-2 mb-4">
-                <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
                 <h3 className="font-bold text-gray-900 dark:text-white">Trending Topics</h3>
               </div>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors duration-200 cursor-pointer">
+                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200 cursor-pointer">
                   <span className="font-medium text-gray-800 dark:text-gray-200">Technology</span>
-                  <span className="text-purple-600 dark:text-purple-400 text-sm font-medium">124 posts</span>
+                  <span className="text-green-600 dark:text-green-400 text-sm font-medium">124 posts</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors duration-200 cursor-pointer">
+                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200 cursor-pointer">
                   <span className="font-medium text-gray-800 dark:text-gray-200">Travel</span>
-                  <span className="text-purple-600 dark:text-purple-400 text-sm font-medium">89 posts</span>
+                  <span className="text-green-600 dark:text-green-400 text-sm font-medium">89 posts</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors duration-200 cursor-pointer">
+                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200 cursor-pointer">
                   <span className="font-medium text-gray-800 dark:text-gray-200">Lifestyle</span>
-                  <span className="text-purple-600 dark:text-purple-400 text-sm font-medium">67 posts</span>
+                  <span className="text-green-600 dark:text-green-400 text-sm font-medium">67 posts</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors duration-200 cursor-pointer">
+                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200 cursor-pointer">
                   <span className="font-medium text-gray-800 dark:text-gray-200">Business</span>
-                  <span className="text-purple-600 dark:text-purple-400 text-sm font-medium">45 posts</span>
+                  <span className="text-green-600 dark:text-green-400 text-sm font-medium">45 posts</span>
                 </div>
               </div>
             </div>
