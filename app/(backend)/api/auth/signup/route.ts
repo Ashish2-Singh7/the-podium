@@ -47,7 +47,7 @@ export async function POST(req: Request) {
         }
 
     } catch (error) {
-        console.log("Error:", error);
+        console.log("Sign-Up Error:", error);
         return NextResponse.json({ message: "INTERNAL SERVER ERROR" });
     }
 }
