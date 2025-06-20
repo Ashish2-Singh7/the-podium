@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Calendar, User, Clock, ArrowLeft, Share2, BookOpen, TrendingUp, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Calendar, User, Clock, ArrowLeft, Share2, BookOpen, TrendingUp } from 'lucide-react';
 import LikeDislikeButtons from '@/components/LikeDislikeButton';
 
 export async function generateStaticParams() {
@@ -130,7 +130,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
                         </h1>
 
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-                            <div className="flex items-center space-x-6 mb-4 md:mb-0">
+                            <div className="flex space-x-6 mb-4 md:mb-0 flex-col sm:flex-row sm:items-center">
                                 <div className="flex items-center space-x-2">
                                     <User className="w-5 h-5 text-gray-400" />
                                     <span className="font-medium text-gray-900 dark:text-white">{article.author}</span>

@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Save, Eye, Upload, Tag, Type, AlignLeft } from 'lucide-react';
-import { marked } from 'marked';
+import { Save, Upload, Tag, Type, AlignLeft } from 'lucide-react';
+// import { marked } from 'marked';
+// import markdownit from 'markdown-it'
+import MDEditor from '@uiw/react-md-editor';
+import Link from 'next/link';
 
 export default function CreateArticle() {
     const [formData, setFormData] = useState({
@@ -41,11 +44,6 @@ export default function CreateArticle() {
         'Education'
     ];
 
-    const getPreviewContent = () => {
-        if (!formData.content) return '<p class="text-gray-500 dark:text-gray-400">Your article content will appear here...</p>';
-        return marked(formData.content);
-    };
-
     return (
         <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -72,19 +70,11 @@ export default function CreateArticle() {
                                             }`}
                                     >
                                         <Type className="w-4 h-4" />
-                                        <span>Write</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setIsPreview(true)}
-                                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${isPreview ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                                            }`}
-                                    >
-                                        <Eye className="w-4 h-4" />
-                                        <span>Preview</span>
+                                        <span className='hidden sm:block'>Write</span>
                                     </button>
                                 </div>
                                 <div className="flex items-center space-x-3">
-                                    <button className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                                    <button className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border border-gray-500 sm:border-0 text-xs sm:text-base">
                                         Save Draft
                                     </button>
                                     <button
@@ -92,89 +82,53 @@ export default function CreateArticle() {
                                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
                                     >
                                         <Save className="w-4 h-4" />
-                                        <span>Publish</span>
+                                        <span className='hidden sm:block'>Publish</span>
                                     </button>
                                 </div>
                             </div>
 
-                            {!isPreview ? (
-                                /* Editor Form */
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            value={formData.title}
-                                            onChange={handleChange}
-                                            placeholder="Article title..."
-                                            className="w-full text-3xl font-bold border-none outline-none resize-none placeholder-gray-400 dark:placeholder-gray-500 bg-transparent text-gray-900 dark:text-white font-playfair"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <input
-                                            type="text"
-                                            name="subtitle"
-                                            value={formData.subtitle}
-                                            onChange={handleChange}
-                                            placeholder="Write a compelling subtitle..."
-                                            className="w-full text-xl text-gray-600 dark:text-gray-400 border-none outline-none resize-none placeholder-gray-400 dark:placeholder-gray-500 bg-transparent"
-                                        />
-                                    </div>
-
-                                    <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                                        <div className="mb-4">
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                                                💡 <strong>Markdown supported:</strong> Use **bold**, *italic*, # headings, - lists, > quotes, `code`, and more!
-                                            </p>
-                                        </div>
-                                        <textarea
-                                            name="content"
-                                            value={formData.content}
-                                            onChange={handleChange}
-                                            placeholder="Tell your story using Markdown...
-
-                                                                # Main Heading
-                                                                ## Subheading
-                                                                                            
-                                                                **Bold text** and *italic text*
-                                                                                            
-                                                                - List item 1
-                                                                - List item 2
-                                                                                            
-                                                                > This is a quote
-                                                                                            
-                                                                `inline code` or:
-                                                                                            
-                                                                ```
-                                                                code block
-                                                                ```
-                                                                                            
-                                                                [Link text](https://example.com)"
-                                            rows={20}
-                                            className="w-full text-lg leading-relaxed border-none outline-none resize-none placeholder-gray-400 dark:placeholder-gray-500 bg-transparent text-gray-900 dark:text-white font-mono"
-                                            required
-                                        />
-                                    </div>
-                                </form>
-                            ) : (
-                                /* Preview */
-                                <div className="prose prose-lg max-w-none dark:prose-invert">
-                                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 font-playfair">
-                                        {formData.title || 'Your Article Title'}
-                                    </h1>
-                                    {formData.subtitle && (
-                                        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-                                            {formData.subtitle}
-                                        </p>
-                                    )}
-                                    <div
-                                        className="text-gray-700 dark:text-gray-300 leading-relaxed"
-                                        dangerouslySetInnerHTML={{ __html: getPreviewContent() }}
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        placeholder="Article title..."
+                                        className="w-full text-3xl font-bold border-none outline-none resize-none placeholder-gray-400 dark:placeholder-gray-500 bg-transparent text-gray-900 dark:text-white font-playfair"
+                                        required
                                     />
                                 </div>
-                            )}
+
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="subtitle"
+                                        value={formData.subtitle}
+                                        onChange={handleChange}
+                                        placeholder="Write a compelling subtitle..."
+                                        className="w-full text-xl text-gray-600 dark:text-gray-400 border-none outline-none resize-none placeholder-gray-400 dark:placeholder-gray-500 bg-transparent"
+                                    />
+                                </div>
+                                <MDEditor
+                                    value={formData.content}
+                                    onChange={(value) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            content: value as string || ''
+                                        }))
+                                    }
+                                    preview="edit"
+                                    height={800}
+                                    style={{ overflow: "hidden"}}
+                                    textareaProps={{
+                                        placeholder: "Briefly describe your idea and what problem it solves",
+                                    }}
+                                    previewOptions={{
+                                        disallowedElements: ["style"]
+                                    }}
+                                />
+                            </form>
                         </div>
                     </div>
 
@@ -254,28 +208,7 @@ export default function CreateArticle() {
                                 <div><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">- item</code> - List item</div>
                                 <div><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">&gt; quote</code> - Quote block</div>
                                 <div><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">`code`</code> - Inline code</div>
-                            </div>
-                        </div>
-
-                        {/* SEO */}
-                        <div className="bg-green-50 dark:bg-green-900/20 rounded-2xl p-6 border border-green-100 dark:border-green-800">
-                            <div className="flex items-center space-x-2 mb-4">
-                                <AlignLeft className="w-5 h-5 text-green-600" />
-                                <h3 className="font-bold text-gray-900 dark:text-white">SEO Score</h3>
-                            </div>
-                            <div className="space-y-3">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-700 dark:text-gray-300">Readability</span>
-                                    <span className="text-green-600 font-medium">Good</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-700 dark:text-gray-300">Keywords</span>
-                                    <span className="text-yellow-600 font-medium">OK</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-700 dark:text-gray-300">Length</span>
-                                    <span className="text-red-600 font-medium">Too Short</span>
-                                </div>
+                                <p className='text-xs pt-2'>For more info visit the site <Link href={"https://www.markdownguide.org/"} target='__blank' className='hover:underline hover:text-blue-600 transition-colors duration-200'>markdownguide.org</Link></p>
                             </div>
                         </div>
                     </div>
