@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     bio: {
         type: String,
-        minLength: 20
+        default: ''
     },
     websiteAdd: {
         type: String,

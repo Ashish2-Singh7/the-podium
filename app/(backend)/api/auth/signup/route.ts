@@ -1,16 +1,38 @@
 import User from '@/model/user.model';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookies from '@/utils/generateToken';
 import { connectToDB } from '@/lib/db';
+import { uploadToCloudinary } from '@/app/(backend)/_services/media.service';
 
-export async function POST(req: Request) {
+
+export async function POST(req: NextRequest) {
     try {
-        const { email, username, password, confirm_password, bio, websiteAdd, socialHandles, profilePic, coverImage } = await req.json();
-        await connectToDB()
-        if (password != confirm_password) {
-            return NextResponse.json({ message: "Passwords don't match" }, { status: 400 })
+        const formData = await req.formData();
+
+        // Access fields and files from the formData object
+        const email = formData.get('email')?.toString(); // Use .toString() to ensure it's a string
+        const username = formData.get('username')?.toString();
+        const password = formData.get('password')?.toString() || '';
+        const bio = formData.get('bio')?.toString();
+        const websiteAdd = formData.get('websiteAdd')?.toString();
+        const socialHandles = formData.get('socialHandles')?.toString();
+
+        // For files, formData.get() returns a File object (or null if not present)
+        const profilePic = formData.get('profilePic') as string | '';
+        const coverImage = formData.get('coverImage') as string | '';
+        let profilePicUrl = '';
+        let coverImageUrl = '';
+
+        if (profilePic) {
+            profilePicUrl = await uploadToCloudinary(profilePic, 'the_podium/users');
         }
+
+        if (coverImage) {
+            coverImageUrl = await uploadToCloudinary(coverImage, 'the_podium/covers');
+        }
+
+        await connectToDB();
 
         const isUserExists = await User.findOne({ username });
 
@@ -28,12 +50,12 @@ export async function POST(req: Request) {
             bio,
             websiteAdd,
             socialHandles,
-            profilePic,
-            coverImage
+            profilePic: profilePicUrl,
+            coverImage: coverImageUrl
         });
 
         const response = NextResponse.json(
-            { message: 'Account Created Successfully', user: { id: newUser._id, email: newUser.email, username: newUser.username } },
+            { message: 'Account Created Successfully', user: { id: newUser._id, email: newUser.email, username: newUser.username, profilePic: newUser.profilePic } },
             { status: 201 }
         );
 

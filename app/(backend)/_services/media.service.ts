@@ -1,0 +1,13 @@
+
+import cloudinary from '@/lib/cloudinary';
+
+
+export async function uploadToCloudinary(file: string, folder: string) {
+  const result = await cloudinary.uploader.upload(file, {
+    folder,
+    resource_type: 'image',
+  });
+  // Remove local temp file after upload
+  // await unlink(file);
+  return result.secure_url;
+}

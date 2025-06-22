@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { useAuth } from '../AuthContext';
 
-const LogoutUserButtons = () => {
+const LogoutUserButtons = ({ user }) => {
     const { handleLogout } = useAuth();
     return (
         <div className="flex items-center space-x-3">
@@ -17,7 +17,7 @@ const LogoutUserButtons = () => {
             </button>
             <Link href="/profile">
                 <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200">
-                    <User className="w-5 h-5 text-white" />
+                    {user?.profilePic ? <img src={user.profilePic} alt="avatar" className='w-8 h-8' /> : <User className="w-5 h-5 text-white" />}
                 </div>
             </Link>
         </div>
