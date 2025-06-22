@@ -1,22 +1,46 @@
-'use client';
-
-import { useState } from 'react';
+import { formatMonthYear } from '@/utils/formatDate';
 import { Mail, MapPin, Calendar, Edit3, Settings, BookOpen, Heart, Eye, MessageCircle, Award, TrendingUp } from 'lucide-react';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { FaInstagram, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
-export default function Profile() {
-    const [isEditing, setIsEditing] = useState(false);
-    const [profileData, setProfileData] = useState({
-        name: 'Ashish Singh',
-        bio: 'Passionate writer and tech enthusiast. I love sharing insights about web development, design, and the future of technology.',
-        location: 'San Francisco, CA',
-        email: 'ashish@thepodium.com',
-        website: 'https://ashishsingh.dev',
-        joinDate: 'January 2023',
-        avatar: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400'
-    });
+export default async function Profile() {
+
+    let profileData;
+
+    const cookieStore = await cookies()
+    const jwt = cookieStore.get('jwt')
+
+    if (!jwt) {
+        redirect('/');
+    }
+    else {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user-details`, {
+            headers: { 'Cookie': `jwt=${jwt.value}` },
+            next: {
+                revalidate: 600
+            }
+        });
+        if (!res.ok) {
+            console.error("Something went wrong profile-page.tsx");
+            redirect('/');
+        }
+        profileData = (await res.json()).user;
+    }
+
+    // NO EDITING PLANS-(RIGHT NOW)
+    // const [isEditing, setIsEditing] = useState(false);
+    // const [profileData, setProfileData] = useState({
+    //     name: 'Ashish Singh',
+    //     bio: 'Passionate writer and tech enthusiast. I love sharing insights about web development, design, and the future of technology.',
+    //     location: 'San Francisco, CA',
+    //     email: 'ashish@thepodium.com',
+    //     website: 'https://ashishsingh.dev',
+    //     joinDate: 'January 2023',
+    //     avatar: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400'
+    // });
 
     const stats = [
         { label: 'Articles Published', value: '24', icon: BookOpen, color: 'blue' },
@@ -60,10 +84,10 @@ export default function Profile() {
         }
     ];
 
-    const handleSave = () => {
-        setIsEditing(false);
-        // Save profile data logic here
-    };
+    // const handleSave = () => {
+    //     setIsEditing(false);
+    //     // Save profile data logic here
+    // };
 
     return (
         <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -72,7 +96,7 @@ export default function Profile() {
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden mb-8">
                     <div className="h-32 w-full overflow-hidden">
                         <img
-                            src="/cover.png"
+                            src={profileData.coverImage || '/coverImg.png'}
                             alt=""
                             className="h-full w-full object-cover"
                         />
@@ -80,38 +104,38 @@ export default function Profile() {
                     <div className="px-8 pb-8">
                         <div className="flex flex-col md:flex-row items-start md:items-end mb-6 -mt-16 md:mt-0">
                             <img
-                                src={profileData.avatar}
-                                alt={profileData.name}
+                                src={profileData.profilePic}
+                                alt={profileData.username}
                                 className="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg mb-4 md:mb-0 md:mr-6"
                             />
                             <div className="flex-1">
                                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-2">
                                     <div>
-                                        {isEditing ? (
+                                        {/* {isEditing ? (
                                             <input
                                                 type="text"
                                                 value={profileData.name}
                                                 onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                                                 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 bg-transparent border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 font-playfair max-w-[60%]"
                                             />
-                                        ) : (
-                                            <h1 className="text-3xl font-bold text-gray-700 dark:text-white mb-2 font-playfair">
-                                                {profileData.name}
-                                            </h1>
-                                        )}
+                                        ) : ( */}
+                                        <h1 className="text-3xl font-bold text-gray-700 dark:text-white mb-2 font-playfair">
+                                            {profileData.username}
+                                        </h1>
+                                        {/* )} */}
                                         <div className="flex sm:items-center sm:space-y-0 space-y-1 sm:space-x-4 text-white dark:text-gray-400 mb-4 flex-col sm:flex-row">
-                                            <div className="flex items-center space-x-1">
-                                                <MapPin className="w-4 h-4" />
-                                                <span>{profileData.location}</span>
-                                            </div>
+                                            {/* <div className="flex items-center space-x-1">
+                                                <MapPin className="w-4 h-4" /> */}
+                                                {/* <span>{profileData.location}</span> */}
+                                            {/* </div> */}
                                             <div className="flex items-center space-x-1">
                                                 <Calendar className="w-4 h-4" />
-                                                <span>Joined {profileData.joinDate}</span>
+                                                <span>Joined {formatMonthYear(profileData.createdAt)}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="flex space-x-3">
-                                        {isEditing ? (
+                                        {/* {isEditing ? (
                                             <>
                                                 <button
                                                     onClick={handleSave}
@@ -127,23 +151,23 @@ export default function Profile() {
                                                 </button>
                                             </>
                                         ) : (
-                                            <>
-                                                <button
-                                                    onClick={() => setIsEditing(true)}
-                                                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                >
-                                                    <Edit3 className="w-4 h-4" />
-                                                    <span className='hidden sm:block'>Edit Profile</span>
-                                                </button>
-                                                <button className="flex items-center space-x-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                                                    <Settings className="w-4 h-4" />
-                                                    <span className='hidden sm:block'>Settings</span>
-                                                </button>
-                                            </>
-                                        )}
+                                            <> */}
+                                        <button
+                                            // onClick={() => setIsEditing(true)}
+                                            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                        >
+                                            <Edit3 className="w-4 h-4" />
+                                            <span className='hidden sm:block'>Edit Profile</span>
+                                        </button>
+                                        <button className="flex items-center space-x-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                            <Settings className="w-4 h-4" />
+                                            <span className='hidden sm:block'>Settings</span>
+                                        </button>
+                                        {/* </>
+                                        )} */}
                                     </div>
                                 </div>
-                                {isEditing ? (
+                                {/* {isEditing ? (
                                     <textarea
                                         value={profileData.bio}
                                         onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
@@ -154,7 +178,11 @@ export default function Profile() {
                                     <p className="text-gray-600 dark:text-gray-400 max-w-2xl mt-4 md:mt-0">
                                         {profileData.bio}
                                     </p>
-                                )}
+                                    )} */}
+                                <p className="text-gray-600 dark:text-gray-400 max-w-2xl mt-4 md:mt-0">
+                                    {profileData.bio}
+                                    {/* ideal word count 18 */}
+                                </p>
                             </div>
                         </div>
 
@@ -165,8 +193,8 @@ export default function Profile() {
                             </div>
                             <div className="flex items-center space-x-1">
                                 <span>🌐</span>
-                                <Link href={profileData.website} target='__blank' className="text-blue-600 hover:text-blue-700">
-                                    {profileData.website}
+                                <Link href={profileData.websiteAdd} target='__blank' className="text-blue-600 hover:text-blue-700">
+                                    {profileData.websiteAdd}
                                 </Link>
                             </div>
                         </div>
