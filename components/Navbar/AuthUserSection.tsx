@@ -8,7 +8,9 @@ async function getInitialUserDetails(jwtCookie) {
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user-details`, {
         headers: { 'Cookie': `jwt=${jwtCookie.value}` },
-        cache: 'no-store' // Always get fresh on initial render
+        next: {
+            revalidate: 600
+        }
     });
     if (!res.ok) {
         console.error("Something went wrong");

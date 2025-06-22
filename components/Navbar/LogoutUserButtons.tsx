@@ -10,7 +10,7 @@ const LogoutUserButtons = ({ user }) => {
         <div className="flex items-center space-x-3">
             <button
                 onClick={handleLogout}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
+                className="p-2 cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
                 title="Logout"
             >
                 <LogOut className="w-5 h-5" />

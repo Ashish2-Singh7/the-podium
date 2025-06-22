@@ -43,10 +43,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     // const { theme, setTheme } = useTheme();
 
-    const handleLogout = () => {
-        console.log('Logging out...');
-        // Add logout logic here
-    };
 
     const openLogin = () => {
         setIsLoginOpen(true);
@@ -75,10 +71,45 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
     };
 
-    const handleLoginSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Login data:', loginData);
-        closeLogin();
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
+                method: 'POST',
+                body: JSON.stringify(loginData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                toast.success(data.message);
+                window.location.reload();
+            } else {
+                const errorData = await response.json();
+                console.error('Login failed:', errorData);
+                toast.error(`Login failed: ${errorData.message || 'Unknown error'}`);
+            }
+        } catch (error) {
+            console.error('Network error during login:', error);
+            toast.error('A network error occurred. Please try again.');
+        }
+
+    };
+
+    const handleLogout = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
+                method: 'POST'
+            })
+            const data = await res.json();
+            toast.success(data.message);
+            window.location.reload();
+
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong!");
+        }
+        // Add logout logic here
     };
 
     const handleSignupSubmit = async (e: React.FormEvent) => {
@@ -104,7 +135,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, {
                     method: 'POST',
-                    body: formData, 
+                    body: formData,
                 });
 
                 if (response.ok) {
