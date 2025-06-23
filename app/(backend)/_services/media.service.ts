@@ -11,3 +11,14 @@ export async function uploadToCloudinary(file: string, folder: string) {
   // await unlink(file);
   return result.secure_url;
 }
+
+
+export async function uploadFeaturedImageToCloudinary(file: string, folder: string) {
+  const result = await cloudinary.uploader.upload(file, {
+    folder,
+    resource_type: 'image',
+  });
+  // Remove local temp file after upload
+  // await unlink(file);
+  return result.secure_url;
+}
