@@ -10,6 +10,10 @@ interface IArticle extends Document {
     featuredImage?: string; // Assuming this will store a URL to the image
     createdAt: Date;
     updatedAt: Date;
+    slug: string;
+    views: number;
+    likes: mongoose.Types.ObjectId[];
+    dislikes: mongoose.Types.ObjectId[];
 }
 
 const ArticleSchema: Schema = new Schema<IArticle>({
@@ -45,6 +49,23 @@ const ArticleSchema: Schema = new Schema<IArticle>({
         type: String,
         default: '',
         trim: true,
+    },
+    slug: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    views: {
+        type: Number,
+        default: 0,
+    },
+    likes: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        default: [], 
+    },
+    dislikes: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        default: [],
     },
 }, {
     timestamps: true,

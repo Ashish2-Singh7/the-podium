@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     let userId: string;
 
     await connectToDB();
-    
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as JwtPayload;
         userId = decoded.userId; // This is your user ID!
@@ -83,6 +83,21 @@ export async function POST(req: NextRequest) {
             ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
             : [];
 
+        // Generate slug from title
+        const slug = title
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '') // Remove non-alphanumeric chars except spaces/hyphens
+            .replace(/\s+/g, '-')         // Replace spaces with hyphens
+            .replace(/-+/g, '-');         // Replace multiple hyphens with single
+
+        // Ensure slug is unique
+        let uniqueSlug = slug;
+        let slugSuffix = 1;
+        while (await Article.findOne({ slug: uniqueSlug })) {
+            uniqueSlug = `${slug}-${slugSuffix++}`;
+        }
+
         // Create the new article in MongoDB
         const newArticle = await Article.create({
             userId,
@@ -92,6 +107,7 @@ export async function POST(req: NextRequest) {
             category: category ? category.trim() : undefined, // Store undefined if empty
             tags: articleTags,
             featuredImage: featuredImageUrl, // Save the Cloudinary URL
+            slug: slug
         });
 
 
@@ -103,8 +119,8 @@ export async function POST(req: NextRequest) {
     } catch (error: any) {
         console.error('Error creating article:', error);
         return NextResponse.json({
-            message: 'Internal server error',
-            error: error.message
+            error: 'Internal server error',
+            errorMessage: error.message
         }, { status: 500 });
     }
 }

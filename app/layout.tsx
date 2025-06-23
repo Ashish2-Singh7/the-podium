@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AuthProvider } from '@/components/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
@@ -31,6 +32,10 @@ export default function RootLayout({
           <AuthProvider>
             <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 font-inter">
               <Navbar />
+              <Toaster
+                position="top-right"
+                reverseOrder={false}
+              />
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
