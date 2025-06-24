@@ -5,7 +5,7 @@ import React from 'react';
 const SearchForm = ({ query }: { query?: string }) => {
     return (
         <div className="relative">
-            <Form action="http://localhost:8080/articles/" scroll={false} className="search-form">
+            <Form action={`${process.env.NEXT_PUBLIC_BASE_URL}/articles/`} scroll={false} className="search-form">
                 <button type='submit' className='search-btn text-white' >
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 </button>
