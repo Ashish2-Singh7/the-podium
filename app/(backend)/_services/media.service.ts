@@ -7,8 +7,6 @@ export async function uploadToCloudinary(file: string, folder: string) {
     folder,
     resource_type: 'image',
   });
-  // Remove local temp file after upload
-  // await unlink(file);
   return result.secure_url;
 }
 
@@ -18,7 +16,5 @@ export async function uploadFeaturedImageToCloudinary(file: string, folder: stri
     folder,
     resource_type: 'image',
   });
-  // Remove local temp file after upload
-  // await unlink(file);
   return result.secure_url;
 }

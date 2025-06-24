@@ -2,6 +2,7 @@
 
 import { Send } from 'lucide-react'
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const ContactForm = () => {
 
@@ -19,10 +20,32 @@ const ContactForm = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/contact`, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            const resdata = await res.json()
+            if (res.ok) {
+                toast.success(resdata.message);
+            }
+            else {
+                toast.error(resdata.error);
+            }
+
+            setFormData({
+                name: '',
+                email: '',
+                subject: '',
+                message: ''
+            });
+        } catch (error) {
+            console.log(error);
+            toast.error("Unexpected error occur. Try Again!")
+        }
     };
 
     return (
@@ -94,7 +117,7 @@ const ContactForm = () => {
 
             <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center space-x-2"
+                className="w-full bg-blue-600 text-white px-6 py-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center space-x-2 cursor-pointer"
             >
                 <Send className="w-5 h-5" />
                 <span>Send Message</span>
