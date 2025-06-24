@@ -1,3 +1,20 @@
+import markdownit from 'markdown-it';
+
+
+
+const md = markdownit();
+function stripHtmlTags(html: string): string {
+  // Client-side: Use DOMParser for more robust HTML parsing
+  if (typeof window !== 'undefined' && window.DOMParser) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  } else {
+    // Server-side (or environments without DOMParser): Use regex as a fallback.
+    // This is less robust but usually sufficient for simple HTML generated from markdown.
+    return html.replace(/<[^>]*>/g, '');
+  }
+}
+
 export function formatMonthYear(dateString) {
   const date = new Date(dateString);
   const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -31,3 +48,21 @@ export function calculateReadingTime(content: string, wordsPerMinute: number = 2
     return `${minutes} min read`;
   }
 }
+
+export const getExcerpt = (markdownContent: string, maxLength: number = 100): string => {
+  if (!markdownContent) return '';
+
+  // 1. Convert Markdown to HTML
+  const htmlContent = md.render(markdownContent);
+
+  // 2. Strip HTML tags from the HTML content to get plain text
+  // This uses a DOMParser if available (client-side) or a regex fallback.
+  const plainTextContent = stripHtmlTags(htmlContent);
+
+  // 3. Truncate the plain text
+  if (plainTextContent.length <= maxLength) {
+    return plainTextContent;
+  }
+  // Find the last space before maxLength to avoid cutting words in half
+  return plainTextContent.substring(0, plainTextContent.lastIndexOf(' ', maxLength)) + '...';
+};
