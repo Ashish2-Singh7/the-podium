@@ -1,3 +1,4 @@
+import { connectToDB } from "@/lib/db";
 import User from "@/model/user.model";
 import generateTokenAndSetCookies from "@/utils/generateToken";
 import bcrypt from "bcryptjs";
@@ -11,6 +12,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const { email, password } = await req.json();
+        await connectToDB();
         const user = await User.findOne({ email });
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
