@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div>
+  <h1>The-podium 🚀 <img src="./public/logo-off-light.png" width="50" alt="podium logo" align="left"></h1>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+> 🗣️ *Your voice deserves a stage.*  
+> **The Podium** is a full-stack blog platform where ideas shine bright and creators take the spotlight.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Built with ⚛️ **Next.js**, 💾 **MongoDB**, and 🎨 **Tailwind CSS**, it’s a clean, powerful space for writing, reading, and reacting.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔥 Features That Slap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+💬 **User Auth**  
+Secure login/signup for authors and readers alike.
 
-## Learn More
+✍️ **Blogging Power**  
+Create, edit, and delete posts effortlessly. Markdown, formatting, images — it's all there.
 
-To learn more about Next.js, take a look at the following resources:
+👁️ **View Tracker**  
+Each article knows how many eyes have seen it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+👍 **Reactions That Matter**  
+Like ❤️ or dislike 💔 articles — all tracked per user.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🔎 **Blazing Search**  
+Find posts by title, tags, categories, or deep content — instantly.
 
-## Deploy on Vercel
+🗂️ **Categories & Tags**  
+Organize chaos. Filter content. Stay classy.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+📱 **Fully Responsive**  
+From wide screens to small thumbs — buttery smooth.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧑‍🍳 Tech Stack
+
+| Tool        | Purpose                      |
+|-------------|------------------------------|
+| **Next.js** | Full-stack React framework   |
+| **MongoDB** | NoSQL Database for content   |
+| **Mongoose**| Schema + Models = ❤️         |
+| **Tailwind**| Utility-first styling wizard |
+| **Lucide**  | Gorgeous icons                |
+
+---
+
+## 🌍 **Live Preview**
+🚀 Check out the app live **[here](https://the-podium.vercel.app/)**! 🔥
+
+---
+
+_Last updated: 24-06-2025_
