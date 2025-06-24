@@ -2,31 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Save, Upload, Tag, Type, AlignLeft } from 'lucide-react';
-// import { marked } from 'marked';
-// import markdownit from 'markdown-it'
 import MDEditor from '@uiw/react-md-editor';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
+import UpdateUiSkeleton from '@/components/skeleton/UpdateUiSkeleton';
 
-export default function CreateArticle() {
 
-    useEffect(() => {
-        async function checkSession() {
-            try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/session-status`);
-                const data = await res.json();
-                if (!data.isAuthenticated) {
-                    redirect('/')
-                }
-            } catch (error) {
-                console.error('Error checking session:', error);
-                redirect('/')
-            }
-        }
-        checkSession();
-    }, []);
-
+export default function UpdateArticle() {
+    const routerParams = useParams();
+    const { id: articleId } = routerParams;
     const router = useRouter();
 
     const [formData, setFormData] = useState({
@@ -37,8 +22,51 @@ export default function CreateArticle() {
         tags: '',
         featuredImage: ''
     });
+    const [loading, setLoading] = useState(true);
 
-    // const [isPreview, setIsPreview] = useState(false);
+
+    useEffect(() => {
+        async function fetchArticleData() {
+            if (!articleId) {
+                setLoading(false);
+                router.push('/');
+                return;
+            }
+            setLoading(true);
+            try {
+                // Make GET request to your custom API route for article details
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/article/update/${articleId}`);
+                const data = await res.json();
+
+                if (!res.ok) {
+                    // This handles 401 Unauthorized, 403 Forbidden, 404 Not Found from your API route
+                    console.error('Error fetching article for update:', data.error || res.statusText);
+                    toast.error(data.error || 'Failed to load article. Redirecting.');
+                    router.push('/');
+                    return;
+                }
+
+                setFormData({
+                    title: data.article.title || '',
+                    subtitle: data.article.subtitle || '',
+                    content: data.article.content || '',
+                    category: data.article.category || '',
+                    tags: Array.isArray(data.article.tags) ? data.article.tags.join(', ') : '',
+                    featuredImage: data.article.featuredImage || ''
+                });
+
+            } catch (err: any) {
+                console.error('Network or unexpected error fetching article:', err);
+                toast.error('An unexpected error occurred. Redirecting.');
+                router.push('/'); // Redirect on network errors
+            }
+            finally {
+                setLoading(false);
+            }
+        }
+
+        fetchArticleData();
+    }, [articleId, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({
@@ -49,21 +77,28 @@ export default function CreateArticle() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/article/create-article`, {
-                method: 'POST',
+            // Corrected: Target the PATCH route for article updates
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/article/update/${articleId}`, {
+                method: 'PATCH', // Changed method to PATCH
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(formData)
             });
             const data = await res.json();
-            if (data.error) {
-                toast.error(data.error);
-            }
-            else {
+
+            if (!res.ok) {
+                const errorMessage = data.errors ? data.errors.join(', ') : data.message || "Failed to update article.";
+                toast.error(errorMessage);
+            } else {
                 toast.success(data.message);
-                router.push(`/articles/${data.article.slug}`)
+                router.push(`/articles/${data.article.slug}`);
             }
-        } catch (error) {
-            console.log(error);
+        } catch (err: any) {
+            console.error('Error updating article:', err);
+            toast.error(err.message || "An unexpected error occurred during update.");
         }
 
     };
@@ -108,16 +143,13 @@ export default function CreateArticle() {
                 position="top-right"
                 reverseOrder={false}
             />
-            <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+            {loading ? <UpdateUiSkeleton /> : <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     {/* Header */}
                     <div className="text-center mb-12">
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 font-playfair">
-                            Create New Article
+                            Update your Article
                         </h1>
-                        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                            Share your thoughts, insights, and stories with our community
-                        </p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -146,7 +178,7 @@ export default function CreateArticle() {
                                             className="bg-blue-600 cursor-pointer text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
                                         >
                                             <Save className="w-4 h-4" />
-                                            <span className='hidden sm:block'>Publish</span>
+                                            <span className='hidden sm:block'>Update</span>
                                         </button>
                                     </div>
                                 </div>
@@ -300,7 +332,7 @@ export default function CreateArticle() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     );
 }

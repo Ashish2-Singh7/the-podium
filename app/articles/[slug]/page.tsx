@@ -9,6 +9,7 @@ import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose';
+import ArticleActions from '@/components/ArticleActions';
 
 const md = markdownit();
 interface JwtPayload {
@@ -56,11 +57,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     const jwtCookie = cookieStore.get('jwt'); // Get the 'jwt' cookie
     let currentUserId: mongoose.Types.ObjectId | null = null;
     let currentUserInitialReaction: 'like' | 'dislike' | null = null;
+    let isAuthor = false;
 
     if (jwtCookie) {
         try {
             const decoded = jwt.verify(jwtCookie.value, process.env.JWT_SECRET_KEY as string) as JwtPayload;
             currentUserId = new mongoose.Types.ObjectId(decoded.userId); // Convert string ID to ObjectId for comparison
+
+            // Check if current user is the author
+            if (article.userId && article.userId.equals(currentUserId)) {
+                isAuthor = true;
+            }
 
             const hasLiked = article.likes.some((viewerId: mongoose.Types.ObjectId) =>
                 viewerId.equals(currentUserId!)
@@ -111,14 +118,24 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         className="w-full h-64 md:h-96 object-cover"
                     />
                     <div className="p-8 md:p-12">
-                        <div className="flex items-center space-x-4 mb-6">
-                            <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-medium">
-                                {article?.category}
-                            </span>
-                            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400 text-sm">
-                                <TrendingUp className="w-4 h-4" />
-                                <span>{article?.views} views</span>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4 mb-6">
+                                <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-medium">
+                                    {article?.category}
+                                </span>
+                                <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400 text-sm">
+                                    <TrendingUp className="w-4 h-4" />
+                                    <span>{article?.views} views</span>
+                                </div>
                             </div>
+                            {isAuthor && (
+                                <div className='relative'>
+                                    <ArticleActions
+                                        articleId={article._id.toString()} // Pass article ID as string
+                                        articleSlug={article.slug}        // Pass slug
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 leading-tight font-playfair">
@@ -127,7 +144,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <h1 className="text-lg md:text-xl font-semibold text-gray-500 dark:text-gray-500 mb-6 leading-tight">
                             {article?.subtitle}
                         </h1>
-
+                        {/* NEW: Render ArticleActions component only if current user is the author */}
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
                             <div className="flex space-x-6 mb-4 md:mb-0 flex-col sm:flex-row sm:items-center">
                                 <div className="flex items-center space-x-2">
