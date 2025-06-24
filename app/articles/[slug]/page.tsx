@@ -131,8 +131,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             {isAuthor && (
                                 <div className='relative'>
                                     <ArticleActions
-                                        articleId={article._id.toString()} // Pass article ID as string
-                                        articleSlug={article.slug}        // Pass slug
+                                        articleId={article._id.toString()}
                                     />
                                 </div>
                             )}
