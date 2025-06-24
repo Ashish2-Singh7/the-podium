@@ -17,7 +17,7 @@ const LogoutUserButtons = ({ user }) => {
             </button>
             <Link href="/profile">
                 <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200">
-                    {user?.profilePic ? <img src={user.profilePic} alt="avatar" className='w-8 h-8' /> : <User className="w-5 h-5 text-white" />}
+                    {user?.profilePic ? <img src={user.profilePic} alt="avatar" className='w-8 h-8 rounded-full' /> : <User className="w-5 h-5 text-white" />}
                 </div>
             </Link>
         </div>

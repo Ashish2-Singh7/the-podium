@@ -48,7 +48,6 @@ export default function ArticleLoading() {
                                 </div>
                             </div>
                             <div className="flex items-center space-x-3">
-                                <div className="h-10 bg-gradient-to-r from-red-200 via-red-300 to-red-200 dark:from-red-800 dark:via-red-700 dark:to-red-800 animate-shimmer bg-[length:200%_100%] rounded-lg w-20"></div>
                                 <div className="h-10 bg-gradient-to-r from-blue-200 via-blue-300 to-blue-200 dark:from-blue-800 dark:via-blue-700 dark:to-blue-800 animate-shimmer bg-[length:200%_100%] rounded-lg w-16"></div>
                             </div>
                         </div>

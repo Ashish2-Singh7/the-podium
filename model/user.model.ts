@@ -41,6 +41,6 @@ const userSchema = new mongoose.Schema({
     // createdAt and updatedAt => Member since <createdAt>
 }, { timestamps: true })
 
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User =  mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;

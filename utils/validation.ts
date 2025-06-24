@@ -30,8 +30,8 @@ export const validateSignUpInputs = (signupData: SignupDataType) => {
 
     // Bio word count
     const bioWordCount = bio.trim().split(/\s+/).filter(word => word.length > 0).length;
-    if (bio.trim() && bioWordCount < 50) {
-        errors.push(`Bio must be at least 50 words long. Current: ${bioWordCount} words.`);
+    if (bio.trim() && bioWordCount < 10) {
+        errors.push(`Bio must be at least 10 words long. Current: ${bioWordCount} words.`);
     }
 
     if (errors.length > 0) {

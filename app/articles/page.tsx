@@ -32,9 +32,9 @@ export default async function Articles({ searchParams }: { searchParams: Promise
     await connectToDB();
     const query = (await searchParams).query;
 
-    if (typeof console !== 'undefined' && typeof console.log === 'function') {
-        console.log("Search Query:", query);
-    }
+    // if (typeof console !== 'undefined' && typeof console.log === 'function') {
+    //     console.log("Search Query:", query);
+    // }
 
     let articlesToDisplay: IClientArticle[] = [];
     let categorizedArticles: ICategorizedArticles = {}; // Initialize for categorized search results

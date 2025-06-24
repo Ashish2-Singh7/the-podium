@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import './user.model'; 
 
 interface IArticle extends Document {
     userId: mongoose.Types.ObjectId,
