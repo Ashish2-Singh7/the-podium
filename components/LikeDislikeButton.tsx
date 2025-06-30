@@ -44,7 +44,7 @@ export default function LikeDislikeButtons({ loggedIn, slug, userActionInitial, 
             if (userAction === 'dislike') {
                 setDislikes(prevState => prevState - 1);
                 setUserAction(null);
-                await likeDislikeArticleFunction(slug, null);
+                await likeDislikeArticleFunction(slug, "null");
             } else if (userAction === 'like') {
                 setDislikes(prevState => prevState + 1);
                 setLikes(prevState => prevState - 1);

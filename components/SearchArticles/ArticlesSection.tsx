@@ -2,13 +2,10 @@
 import { TrendingUp } from 'lucide-react';
 import React, { useState } from 'react'
 import ArticleCard from './ArticleCard';
-import ArticleSectionSkeleton from '../skeleton/ArticleSectionSkeleton';
 
-const ArticlesSection = ({ categorizedArticles, articlesToDisplay, mostViewedArticles, loading }) => {
+const ArticlesSection = ({ categorizedArticles, articlesToDisplay, mostViewedArticles }) => {
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const isEmpty = loading && !articlesToDisplay.length && !mostViewedArticles.length;
-
-    if (!loading) return <ArticleSectionSkeleton />;
+    const isEmpty = !articlesToDisplay.length && !mostViewedArticles.length;
 
     if (isEmpty) {
         return (

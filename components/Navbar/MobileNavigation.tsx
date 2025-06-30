@@ -1,12 +1,9 @@
-"use client";
 import Link from 'next/link';
 import React from 'react'
-import { useAuth } from '../AuthContext';
 import { LogOut, User } from 'lucide-react';
 
-const MobileNavigation = () => {
+const MobileNavigation = ({ jwt ,isMenuOpen, setIsMenuOpen, handleLogout, openLogin, openSignup}) => {
 
-    const { isMenuOpen, setIsMenuOpen, useToken, handleLogout, openLogin, openSignup } = useAuth();
     return (
         <div className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${isMenuOpen ? 'visible' : 'invisible'}`}>
             {/* Backdrop */}
@@ -43,16 +40,18 @@ const MobileNavigation = () => {
                             >
                                 Contact
                             </Link>
-                            <Link
-                                href="/profile"
-                                className="flex items-center text-lg font-medium font-inter text-gray-700 dark:text-gray-300 py-3"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Profile
-                            </Link>
+                            {jwt ? (
+                                <Link
+                                    href="/profile"
+                                    className="flex items-center text-lg font-medium font-inter text-gray-700 dark:text-gray-300 py-3"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Profile
+                                </Link>
+                            ) : null}
 
                             {/* Create Button */}
-                            {!useToken ? (
+                            {!jwt ? (
                                 <div className="space-y-3 pt-4">
                                     <button
                                         onClick={() => {
@@ -86,33 +85,33 @@ const MobileNavigation = () => {
                     </div>
 
                     {/* Bottom Section */}
-                    <div className="px-6 py-6  border-t border-gray-200 dark:border-gray-700">
+                    {jwt ? (<div className="px-6 py-6  border-t border-gray-200 dark:border-gray-700">
                         {/* User Profile or Logout */}
-                        {useToken ? (
-                            <div className="space-y-3">
-                                <Link
-                                    href="/profile"
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="flex items-center space-x-3 w-full p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
-                                >
-                                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
-                                        <User className="w-5 h-5 text-white" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="text-gray-900 dark:text-white font-medium">Ashish Singh</div>
-                                        <div className="text-gray-500 dark:text-gray-400 text-sm">View Profile</div>
-                                    </div>
-                                </Link>
-                                <button
-                                    onClick={handleLogout}
-                                    className="flex items-center space-x-3 w-full p-4 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-colors duration-200"
-                                >
-                                    <LogOut className="w-5 h-5" />
-                                    <span className="font-medium">Logout</span>
-                                </button>
-                            </div>
-                        ) : null}
+
+                        <div className="space-y-3">
+                            <Link
+                                href="/profile"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex items-center space-x-3 w-full p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+                            >
+                                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                                    <User className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="text-gray-900 dark:text-white font-medium">Ashish Singh</div>
+                                    <div className="text-gray-500 dark:text-gray-400 text-sm">View Profile</div>
+                                </div>
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center space-x-3 w-full p-4 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-colors duration-200"
+                            >
+                                <LogOut className="w-5 h-5" />
+                                <span className="font-medium">Logout</span>
+                            </button>
+                        </div>
                     </div>
+                    ) : null}
                 </div>
             </div>
         </div>

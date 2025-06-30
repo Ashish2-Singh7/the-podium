@@ -16,6 +16,7 @@ export type contextProps = {
     isLoginOpen: boolean;
     isSignupOpen: boolean;
     showPassword: boolean;
+    loadingSignupLogin: boolean;
     setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
     setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;

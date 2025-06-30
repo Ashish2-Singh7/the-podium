@@ -1,15 +1,29 @@
 import Link from 'next/link';
-import AuthModals from '../Auth/AuthModals';
-import MobileMenuButton from './MobileMenuButton';
-import MobileNavigation from './MobileNavigation';
-import AuthUserSection from './AuthUserSection';
 import { cookies } from 'next/headers';
+import ClientNavbarComponents from './ClientNavbarComponents';
 
-// import { useTheme } from 'next-themes';
+async function getInitialUserDetails(jwtCookie) {
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user-details`, {
+        headers: { 'Cookie': `jwt=${jwtCookie.value}` },
+        next: {
+            revalidate: 600
+        }
+    });
+    if (!res.ok) {
+        console.error("Something went wrong");
+    }
+    const data = await res.json();
+    return data.user;
+}
 
 export default async function Navbar() {
     const cookieStore = await cookies()
     const jwt = cookieStore.get('jwt')
+    let initialUser;
+    if (jwt) {
+        initialUser = await getInitialUserDetails(jwt);
+    }
     return (
         <>
             <nav className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
@@ -60,19 +74,10 @@ export default async function Navbar() {
                             )}
                         </div>
 
-                        {/* Auth & User Section */}
-                        <AuthUserSection />
-
-                        {/* Mobile menu button */}
-                        <MobileMenuButton />
+                        <ClientNavbarComponents jwt={jwt} user={initialUser} />
                     </div>
                 </div>
             </nav >
-
-            {/* Mobile Navigation */}
-            < MobileNavigation />
-            {/* Auth Modals */}
-            < AuthModals />
         </>
     );
 }

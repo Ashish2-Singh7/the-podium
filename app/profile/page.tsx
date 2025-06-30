@@ -1,5 +1,5 @@
 import { formatMonthYear } from '@/utils/formatDate';
-import { Mail, MapPin, Calendar, Edit3, Settings, BookOpen, Heart, Eye, MessageCircle, Award, TrendingUp } from 'lucide-react';
+import { Mail, Calendar, Edit3, Settings, BookOpen, Heart, Eye, MessageCircle, Award, TrendingUp } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -29,18 +29,6 @@ export default async function Profile() {
         }
         profileData = (await res.json()).user;
     }
-
-    // NO EDITING PLANS-(RIGHT NOW)
-    // const [isEditing, setIsEditing] = useState(false);
-    // const [profileData, setProfileData] = useState({
-    //     name: 'Ashish Singh',
-    //     bio: 'Passionate writer and tech enthusiast. I love sharing insights about web development, design, and the future of technology.',
-    //     location: 'San Francisco, CA',
-    //     email: 'ashish@thepodium.com',
-    //     website: 'https://ashishsingh.dev',
-    //     joinDate: 'January 2023',
-    //     avatar: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400'
-    // });
 
     const stats = [
         { label: 'Articles Published', value: '24', icon: BookOpen, color: 'blue' },
@@ -84,10 +72,6 @@ export default async function Profile() {
         }
     ];
 
-    // const handleSave = () => {
-    //     setIsEditing(false);
-    //     // Save profile data logic here
-    // };
 
     return (
         <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -111,23 +95,10 @@ export default async function Profile() {
                             <div className="flex-1">
                                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-2">
                                     <div>
-                                        {/* {isEditing ? (
-                                            <input
-                                                type="text"
-                                                value={profileData.name}
-                                                onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                                                className="text-3xl font-bold text-gray-900 dark:text-white mb-2 bg-transparent border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 font-playfair max-w-[60%]"
-                                            />
-                                        ) : ( */}
                                         <h1 className="text-3xl font-bold text-gray-700 dark:text-white mb-2 font-playfair">
                                             {profileData.username}
                                         </h1>
-                                        {/* )} */}
                                         <div className="flex sm:items-center sm:space-y-0 space-y-1 sm:space-x-4 text-white dark:text-gray-400 mb-4 flex-col sm:flex-row">
-                                            {/* <div className="flex items-center space-x-1">
-                                                <MapPin className="w-4 h-4" /> */}
-                                                {/* <span>{profileData.location}</span> */}
-                                            {/* </div> */}
                                             <div className="flex items-center space-x-1">
                                                 <Calendar className="w-4 h-4" />
                                                 <span>Joined {formatMonthYear(profileData.createdAt)}</span>
@@ -135,25 +106,7 @@ export default async function Profile() {
                                         </div>
                                     </div>
                                     <div className="flex space-x-3">
-                                        {/* {isEditing ? (
-                                            <>
-                                                <button
-                                                    onClick={handleSave}
-                                                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                >
-                                                    Save Changes
-                                                </button>
-                                                <button
-                                                    onClick={() => setIsEditing(false)}
-                                                    className="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <> */}
                                         <button
-                                            // onClick={() => setIsEditing(true)}
                                             className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                         >
                                             <Edit3 className="w-4 h-4" />
@@ -163,22 +116,8 @@ export default async function Profile() {
                                             <Settings className="w-4 h-4" />
                                             <span className='hidden sm:block'>Settings</span>
                                         </button>
-                                        {/* </>
-                                        )} */}
                                     </div>
                                 </div>
-                                {/* {isEditing ? (
-                                    <textarea
-                                        value={profileData.bio}
-                                        onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-                                        rows={3}
-                                        className="w-full text-gray-600 dark:text-gray-400 bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:outline-none focus:border-blue-500 resize-none max-w-[75%] mt-4"
-                                    />
-                                ) : (
-                                    <p className="text-gray-600 dark:text-gray-400 max-w-2xl mt-4 md:mt-0">
-                                        {profileData.bio}
-                                    </p>
-                                    )} */}
                                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl mt-4 md:mt-0">
                                     {profileData.bio}
                                     {/* ideal word count 18 */}

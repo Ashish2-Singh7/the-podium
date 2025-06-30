@@ -1,10 +1,7 @@
-"use client";
 import React from 'react'
-import { useAuth } from '../AuthContext';
 import { Menu, X } from 'lucide-react';
 
-const MobileMenuButton = () => {
-    const { setIsMenuOpen, isMenuOpen } = useAuth();
+const MobileMenuButton = ({ isMenuOpen, setIsMenuOpen }) => {
     return (
         <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}

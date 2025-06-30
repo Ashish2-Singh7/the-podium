@@ -1,10 +1,6 @@
-"use client";
 import React from 'react'
-import { useAuth } from '../AuthContext';
 
-const LoginSignUpButtons = () => {
-
-  const { openLogin, openSignup } = useAuth();
+const LoginSignUpButtons = ({ openLogin, openSignup }) => {
 
   return (
     <div className="flex items-center space-x-3">
